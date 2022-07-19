@@ -324,7 +324,7 @@ def create_output_json(space, list, test1, strok = ''):
         x -= i.size['length']
     final = {"cargoSpace": cargo_space, "cargos": cargos_list, "unpacked": unpacked}
     fil = file_name.split('/')
-    with open('../output/result_output_' + fil[-1] + '.json', 'w') as f:
+    with open('../output/result_output_' + fil[-1], 'w') as f:
         json.dump(final, f)
     # with open('result_output_' + fil[-1]  + strok + '.json', 'w') as f:
     #     json.dump(final, f)
@@ -339,7 +339,11 @@ def main(file_name):
         for j in range(i['count']):
             all_RectCuboid.append(RectangularCuboid(i['id'], i['mass'], i['sort'], counter, i['size']))
             counter += 1
-    space = dict(zip(['width', 'height', 'length'],
+    if isinstance(templates['cargo_space']['size'], dict):
+        space = {'width': templates['cargo_space']['size']['width'] / 1000, "height": templates['cargo_space']['size'] / 1000,
+                     "length": templates['cargo_space']['size'] / 1000}
+    else:
+        space = dict(zip(['width', 'height', 'length'],
                      [templates['cargo_space']['size'][0] / 1000, templates['cargo_space']['size'][1] / 1000,
                       templates['cargo_space']['size'][2] / 1000]))
     copyAll = copy.deepcopy(all_RectCuboid)
